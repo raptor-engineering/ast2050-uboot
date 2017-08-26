@@ -61,8 +61,11 @@ int board_init (void)
     reg &= 0xfeffffff;
     reg |= 0x02000000;
     *((volatile ulong*) (AST_GPIO_BASE+0x20)) = reg;
-    *((volatile ulong*) (AST_GPIO_BASE+0x04)) |= 0x00000010;
     *((volatile ulong*) (AST_GPIO_BASE+0x24)) |= 0x03000000;
+    if (!((*((volatile ulong*) (AST_GPIO_BASE+0x04))) & 0x00000010)) {
+        *((volatile ulong*) (AST_GPIO_BASE+0x00)) |= 0x00000010;
+        *((volatile ulong*) (AST_GPIO_BASE+0x04)) |= 0x00000010;
+    }
 #endif
 
 #ifndef CONFIG_AST2050
